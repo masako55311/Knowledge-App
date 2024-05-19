@@ -20,20 +20,21 @@
   <!--contents-->
 
   <?php
-    if(!isset($_SESSION["visited"])){
-      print('初回の訪問です。セッションを開始します。');
-      $_SESSION["visited"] = 1;
-      $_SESSION["date"] = date('c');
-    }else{
-      $visited = $_SESSION["visited"];
-      $visited = $visited + 1;
+    $dbconn_info = 'mysql:dbname=devdb;host=devdb-1.cj02a84cgeld.ap-northeast-3.rds.amazonaws.com';
+    $user = 'admin';
+    $pw = 'ctl-db1234!';
 
-      print('訪問回数は'.$visited.'回です。<br>');
-      if(isset($_SESSION["date"])){
-        print('前回の訪問日時は'.$_SESSION["date"].'です。<br>');
-      }
-      $_SESSION["date"] = date('c');
-      $_SESSION["visited"] = $visited;
+    //db接続
+    try{
+      $dbh = new PDO($dbconn_info,$user,$pw);
+
+      $query = "SELECT * FROM T_TIMELINE";
+      $stmt = $dbh->query($query);
+      $data = $stmt->fetchAll(PDO::FETCH_BOTH);
+    }
+    catch(PDOException $e){
+        print("データベースの接続に失敗しました".$e->getTraceAsString());
+        die();
     }
   ?>
   <div class="container-md">
@@ -69,9 +70,12 @@
       </div>  
     </div>
     <?php
-      for($i = 0; $i < 11 ; $i++){
+      for($i = 0; $i < count($data) ; $i++){
     ?>
-          <div id = block_<?= $i ?> class="row dammy my-2"></div>
+        <div id = block_<?= $i ?> class="row dammy my-2">
+        <h4>title : <?php echo $data[$i]["Title"]?> </h4><br>
+        <h4>Content : <?php echo $data[$i]["Content"]?> </h4><br>
+        </div>
     <?php  }
     ?>
     
@@ -94,6 +98,10 @@
         </div>
       </div> 
 </div>
+<?php
+      //DB切断
+      $dbh = null;
+?>
 
 </body>
 </html>
