@@ -36,6 +36,9 @@
         print("データベースの接続に失敗しました".$e->getTraceAsString());
         die();
     }
+
+    //DB切断
+    $dbh = null;
   ?>
   <div class="container-md">
       <!-- As a link -->
@@ -99,8 +102,7 @@
       </div> 
 </div>
 <?php
-      //DB切断
-      $dbh = null;
+
 ?>
 
 </body>

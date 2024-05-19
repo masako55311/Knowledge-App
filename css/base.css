@@ -35,8 +35,12 @@ a:hover{
   padding: 25px 0;
 }
 
-.dammy{
+.dammy a{
   display: block;
   height: 200px;
   background-color: aquamarine;
+}
+
+.dammy a:hover{
+  opacity: 0.6;
 }
