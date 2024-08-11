@@ -18,7 +18,7 @@
       <div class="row">
         <nav class="navbar bg-body-tertiary">
           <div class="container-fluid">
-            <a class="navbar-brand" href="#">Knowledge Hub</a>
+            <a class="navbar-brand" href="./index.php">Knowledge Hub</a>
           </div>
         </nav>
       </div>
@@ -26,7 +26,8 @@
       <div class="row">
              <h1>新規作成画面です</h1>
       </div> 
-    </div>
       <a href="./index.php">back</a>
+    </div>
+      
     </body>
 </html>
