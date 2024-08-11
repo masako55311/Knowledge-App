@@ -40,7 +40,7 @@
     //DB切断
     $dbh = null;
   ?>
-  <div class="container-md">
+  <div class="container-md container-style">
       <!-- As a link -->
     <div class="row">
       <nav class="navbar bg-body-tertiary">
@@ -83,8 +83,6 @@
         </div>
  <?php  }
     ?>
-    
-
   </div>
   <div class="container-md menu-bar fixed-bottom">
   <!-- footer menu -->
