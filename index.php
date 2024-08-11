@@ -76,10 +76,12 @@
       for($i = 0; $i < count($data) ; $i++){
     ?>
         <div id = block_<?= $i ?> class="row dammy my-2">
-        <h4>title : <?php echo $data[$i]["Title"]?> </h4><br>
-        <h4>Content : <?php echo $data[$i]["Content"]?> </h4><br>
+          <a href="./detail.php">
+            <h4>title : <?php echo $data[$i]["Title"]?> </h4><br>
+            <h4>Content : <?php echo $data[$i]["Content"]?> </h4><br>
+          </a>
         </div>
-    <?php  }
+ <?php  }
     ?>
     
 
