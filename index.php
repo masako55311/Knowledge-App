@@ -94,7 +94,7 @@
           <a href="#" class="w-100 h-100">Home</a>
         </div>
         <div class="col-sm-3 text-center">
-          <a href="./new.php"  class="w-100 h-100">New</a>
+          <a href="./newpost.php"  class="w-100 h-100">New</a>
         </div>
         <div class="col-sm-3 text-center">
           <button  id="scroll-to-top-btn" class="w-100 h-100">Top</button>
