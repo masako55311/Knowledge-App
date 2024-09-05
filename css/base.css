@@ -21,6 +21,10 @@ a{
 a:hover{
   opacity: 0.6;
 }
+hr{
+  border-width: 80%;
+  border-style: dashed;
+}
 
 
 .search_form{
@@ -30,21 +34,50 @@ a:hover{
 .menu-bar{
   background-color: azure;
   height: 100px;
+  margin-bottom: -100px;
+  z-index: 50;
+
 }
+.container-md{
+  margin-bottom: 100px;
+}
+
 .menu-bar a{
+  display: block;
   padding: 25px 0;
 }
-
-.dammy a{
+.menu-bar button{
   display: block;
-  height: 200px;
-  background-color: aquamarine;
 }
 
-.dammy a:hover{
+.contents-box{
+  display: block;
+}
+.contents-box a{
+  display: block;
+  
+}
+.contents-box a:hover{
   opacity: 0.6;
 }
+.contents-box .contents-header{
+  height: 30px;
+  color: #325d80;
+}
+.contents-box .contents-body{
+  height: 100px;
+}
+.contents-box .contents-footer{
+  height: 20px;
+  text-align: end;
+}
 
-.container-style{
-  margin-bottom: 74px;
+.page_title span{
+  font-size: 36px;
+  color: #001429;
+}
+
+.tag-area{
+  display: block;
+  height: 80px;
 }

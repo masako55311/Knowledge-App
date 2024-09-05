@@ -36,14 +36,13 @@
         print("データベースの接続に失敗しました".$e->getTraceAsString());
         die();
     }
-
     //DB切断
     $dbh = null;
   ?>
-  <div class="container-md container-style">
+  <div class="container-md">
       <!-- As a link -->
-    <div class="row">
-      <nav class="navbar bg-body-tertiary">
+    <div class="row mb-3">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Knowledge Hub</a>
         </div>
@@ -72,15 +71,30 @@
         </form>
       </div>  
     </div>
+    <hr>   
     <?php
       for($i = 0; $i < count($data) ; $i++){
     ?>
-        <div id = block_<?= $i ?> class="row dammy my-2">
-        <a href="./detail.php?id=<?= $data[$i]["Entry_id"]?>">
-          <h4>title : <?php echo $data[$i]["Title"]?> </h4><br>
-          <h4>Content : <?php echo $data[$i]["Content"]?> </h4><br>
-        </a>
+         
+         <a href="./detail.php?id=<?= $data[$i]["Entry_id"]?>">
+        <div class="contents-box" id = block_<?= $i ?> >
+        
+          <div class="contents-header mb-2">
+          
+            <h4><?php echo $data[$i]["Title"]?> </h4>
+          </div>
+          <div class="contents-body">
+            <p class="card-text"><?php echo $data[$i]["Content"]?></p>
+           
+          </div>
+          <div class="contents-footer">
+            <p class="card-text">投稿者：<?php echo $data[$i]["User"]?></p>
+          </div>
         </div>
+        </a>
+
+    <hr aligh="center">    
+  
  <?php  }
     ?>
   </div>

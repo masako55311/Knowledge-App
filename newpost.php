@@ -10,24 +10,152 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/base.js"></script>
+      <script src="js/newpost.js"></script>
       <title>knowledge hub</title>
     </head>
     <body>
-      <div class="container-md">
-        <!-- As a link -->
-      <div class="row">
-        <nav class="navbar bg-body-tertiary">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="./index.php">Knowledge Hub</a>
-          </div>
-        </nav>
-      </div>
-      <!-- main-->
-      <div class="row">
-             <h1>新規作成画面です</h1>
-      </div> 
-      <a href="./index.php">back</a>
+       <!-- Logic -->
+  <?php
+  if(isset($_POST['title'])){  
+    //オートロードの読み込み
+//    require_once __DIR__ .'/vendor/autoload.php';
+    
+    //.env読み込み
+//    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+//    $dotenv->load(); 
+    //接続情報をセット
+//    $host= $_ENV['DB_HOST'];
+//    $dbname= $_ENV['DB_NAME'];
+ //   $dbconn_info = 'mysql:dbname='.$dbname.';host='.$host;
+ //   $user= $_ENV['DB_USER'];
+ //   $pw= $_ENV['DB_PASS'];
+    $dbconn_info = 'mysql:dbname=devdb;host=devdb-1.cj02a84cgeld.ap-northeast-3.rds.amazonaws.com';
+    $user = 'admin';
+    $pw = 'ctl-db1234!';
+
+    // リクエスト文字列取得
+    $title = $_POST['title'];
+    $digest =$_POST['digest'];
+    $detail =$_POST['detail'];
+    $contributor =$_POST['contributor'];
+
+    // クエリ生成
+    $query = 'INSERT INTO T_TIMELINE(
+                                Entry_id, 
+                                Title, 
+                                Content, 
+                                Detail, 
+                                User, 
+                                Create_date, 
+                                Create_user, 
+                                Update_date, 
+                                Update_user )';  
+    $values .= 'VALUES( ';
+    $values .= "null,:title,:digest,:detail,:contributor,NOW(),:contributor,NOW(),:contributor);";
+    $query .= $values;
+    echo $query;
+
+    //db接続
+     try{
+      $dbh = new PDO($dbconn_info,$user,$pw);
+    }
+    catch(PDOException $e){
+        print("データベースの接続に失敗しました".$e->getTraceAsString());
+        die();
+    }
+      $stmt = $dbh->prepare($query);
+      $stmt -> bindValue(":title",$title,PDO::PARAM_STR);
+      $stmt -> bindValue(":digest",$digest,PDO::PARAM_STR);
+      $stmt -> bindValue(":detail",$detail,PDO::PARAM_STR);
+      $stmt -> bindValue(":contributor",$contributor,PDO::PARAM_STR);
+      //SQL実行
+      if($stmt -> execute()){
+        $ins_success=1;
+      }else{
+        $ins_success=0;
+      }
+     //DB切断
+     $dbh = null;
+ }
+?>
+  <!--contents-->
+  <div class="container-md">
+      <!-- As a link -->
+    <div class="row mb-3">
+      <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">新規作成</a>
+          <a href="./index.php">back</a>
+        </div>
+      </nav>
     </div>
+    <?php 
+      if($ins_success == '1'){
+    ?>
+      <div class="alert alert-success alert-dismissible" role="alert">登録に成功しました</div>
+    <?php  }elseif($ins_success == '0'){ ?>
+      <div class="alert alert-danger" role="alert">登録に失敗しました</div>  
+    <?php }
+    ?>
+    <div id="liveAlertPlaceholder"></div>
+    <form action="./new.php" method="post" class="needs-validation">
+        <div class="row justify-content-center mb-3">
+          <div class="col-10">
+            <span style="font-size:36px; color: #001429;">ナレッジの新規投稿</span>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <div class="row mb-3">
+              <label for="colFormLabel" class="col-sm-2 col-form-label">タイトル</label>
+                <div class="col-10">
+                   <input type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1" name="title" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+              <label for="colFormLabel" class="col-sm-2 col-form-label">概略</label>
+              <div class="col-10">
+                <input type="text" class="form-control" placeholder="簡単な説明を入力" aria-label="title" aria-describedby="basic-addon2" name="digest" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="colFormLabel" class="col-sm-2 col-form-label">詳細</label>
+              <div class="col-10">
+                <textarea class="form-control" aria-label="With textarea" name="detail"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-9">
+            <div class="row mb-3">
+              <label for="colFormLabel" class="col-sm-2 col-form-label">タグ</label>
+              <div class="col-4">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Add Tag" aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon2">+</button>
+                </div> 
+              </div>
+            </div>
+            <div class="row mb-3 tag-area">
+            </div>
+          </div>
+          <div class="col-9">
+            <div class="row mb-3">
+              <label for="colFormLabel" class="col-sm-2 col-form-label">投稿者</label>
+              <div class="col-3">
+                <input type="text" class="form-control" placeholder="name" aria-label="name" aria-describedby="basic-addon1" name="contributor" required>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-2 offset-md-10">
+              <button type="submit" class="btn btn-secondary mb-3" id="btn_submit" name="btn_submit">投稿</button>
+            </div>
+        </div>
+        <input type="hidden" id="sub_flg" name="sub_flg" value="">
+    </form>
+  </div>
       
     </body>
 </html>
