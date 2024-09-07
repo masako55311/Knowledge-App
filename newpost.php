@@ -84,7 +84,7 @@
     <div class="row mb-3">
       <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">新規作成</a>
+          <a class="navbar-brand" href="#">Knowledge Hub</a>
           <a href="./index.php">back</a>
         </div>
       </nav>
