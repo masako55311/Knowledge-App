@@ -13,13 +13,16 @@ function addBookmark(idx){
 }
 
 // 検索窓open
-function openSearch(){
-  document.getElementById("search_form").style.display = "block";
+//function openSearch(){
+//  document.getElementById("search_form").style.display = "block";
   //document.getElementById("search_form").style.height = "200px";
-}
+//}
 // 検索窓close
 function closeSearch(){
-  document.getElementById("search_form").style.display = "none";
+  var collapseSearch = document.getElementById('collapseSearch');
+  var bsCollapse = new bootstrap.Collapse(collapseSearch,{
+    hide: true
+  })
 }
 
 // ページTopに戻る
@@ -31,6 +34,4 @@ function scroll_to_top_ev(){
   window.scroll({top: 0 , behavior: 'smooth'});
 };
 });
-
-
 

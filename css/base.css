@@ -1,3 +1,19 @@
+.noto-sans-jp-400 {
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+.noto-sans-jp-600{
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.contents-title{
+  font-size: 20px;
+}
 button{
   padding: 0;
   border: none;
@@ -25,23 +41,26 @@ hr{
   border-width: 80%;
   border-style: dashed;
 }
-
-
-.search_form{
-  display: none;
+.navbar{
+  background-color: #e6f2ff;
+  height: 100px;
+}
+.search-window{
+  /*display: none;*/
+  background-color :#f7f9ff;
+  opacity: 0.9;
+  padding: 1.2rem;
 }
 
 .menu-bar{
-  background-color: azure;
-  height: 100px;
-  margin-bottom: -100px;
+  background-color: #e6f2ff;
+  position: sticky;
+  /*height: 100px;*/
+  bottom: 0px;
+  /*margin-bottom: -100px;*/
   z-index: 50;
 
 }
-.container-md{
-  margin-bottom: 100px;
-}
-
 .menu-bar a{
   display: block;
   padding: 25px 0;
