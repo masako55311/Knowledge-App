@@ -28,12 +28,39 @@
     $user = 'admin';
     $pw = 'ctl-db1234!';
 
+      //変数初期化
+   $query = '';  //SQL文字列
+   $query_2 = '';  //SQL文字列（条件あり）
+   $search_word = ''; // 検索テキスト
+   $search_type ='';
+   $condition_flg = 0;
+
+   // リクエスト文字列取得
+   if(!empty($_POST['submit'])){
+    $condition_flg = 1;
+    $search_word = '%'.$_POST['search_word'].'%'; // 検索テキスト
+    $search_type = $_POST['search_type']; // 検索タイプ
+      if($search_type == 0){
+        $query_2 .= "  WHERE tl.Title  LIKE :search_word  ";
+      }else{
+        $query_2 .= "  WHERE tg.Tag_name  LIKE :search_word  ";
+      }
+   }
+   //SQLクエリ生成
+   $query = "SELECT tl.Entry_id,tl.Title,tl.Content,tl.User,tg.Tag_name ";
+   $query .= " FROM T_TIMELINE tl LEFT OUTER JOIN T_TAGMAP tm ON tl.Entry_id = tm.Entry_id LEFT OUTER JOIN T_TAG tg ON tm.Tag_id = tg.Tag_id ";
+   $query .= $query_2;
+   $query .= " ORDER BY Update_date DESC";
     //db接続
     try{
       $dbh = new PDO($dbconn_info,$user,$pw);
-
-      $query = "SELECT * FROM T_TIMELINE";
-      $stmt = $dbh->query($query);
+      if($condition_flg == 1){
+        $stmt = $dbh->prepare($query);
+        $stmt -> bindValue(":search_word",$search_word,PDO::PARAM_STR);
+        $stmt -> execute();
+      }else{
+        $stmt = $dbh->query($query);
+      }
       $data = $stmt->fetchAll(PDO::FETCH_BOTH);
     }
     catch(PDOException $e){
@@ -55,29 +82,29 @@
     <!-- search window-->
     <div class="row collapse" id="collapseSearch">
       <div class="search-window" id="search_window">
-        <form  role="search">
+      <form action="./index.php" method="post" role="search">
           <div class = "row">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="検索ワード" aria-label="searchform" aria-describedby="searchform">
-                <button class="btn btn-secondary" type="button" id="btn-search">検索</button>
+            <input type="text" class="form-control" name="search_word" placeholder="検索ワード" aria-label="searchform" aria-describedby="searchform">
+            <button class="btn-submit" type="submit" id="btn-search" name="submit" value="1">検索</button>
                 <button class="btn" type="button" 
                   id="btn-close" onclick="closeSearch()">&times;</span></button> 
             </div>
           </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-              <label class="form-check-label" for="inlineRadio1">ワード検索</label>
+            <input class="form-check-input" type="radio" name="search_type" id="searchRadioWord" value="0" checked>
+            <label class="form-check-label" for="searchRadioWord">ワード検索</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-              <label class="form-check-label" for="inlineRadio2">タグ検索</label>
+            <input class="form-check-input" type="radio" name="search_type" id="searchRadioTag" value="1">
+            <label class="form-check-label" for="searchRadioTag">タグ検索</label>
             </div>
           
         </form>
       </div>  
     </div>
     </div>
-   <div class="container-md noto-sans-jp-400">
+    <div class="container-md noto-sans-jp-400 main-area">
     <hr>   
     <?php
       for($i = 0; $i < count($data) ; $i++){
@@ -105,21 +132,35 @@
  <?php  }
     ?>
   </div>
-  <div class="container-md menu-bar noto-sans-jp-400">
+  <div class="container-md menu-bar noto-sans-jp-400 fixed-bottom">
   <!-- footer menu -->
       <div class="row">
           <div class="col-sm-3 text-center">
           <button id="search-btn" class="w-100 h-100 btn" type="button"
-          data-bs-toggle="collapse" data-bs-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Search</button>
+          data-bs-toggle="collapse" data-bs-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+          </button>
           </div>
         <div class="col-sm-3 text-center">
-          <a href="#" class="w-100 h-100">Home</a>
+        <a href="./index.php" class="w-100 h-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+          </svg>
+          </a>
         </div>
         <div class="col-sm-3 text-center">
-          <a href="./newpost.php"  class="w-100 h-100">New</a>
+        <a href="./newpost.php"  class="w-100 h-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+          </a>
         </div>
         <div class="col-sm-3 text-center">
-          <button  id="scroll-to-top-btn" class="w-100 h-100">Top</button>
+        <button  id="scroll-to-top-btn" class="w-100 h-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"  fill="currentColor" class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+          </button>
         </div>
       </div> 
 </div>

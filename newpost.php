@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
     <head>
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="css/base.css">
+      <link rel="stylesheet" href="css/newpost.css">
+<!--font inport-->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+<!--jquery -->
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
       <script src="js/bootstrap.min.js"></script>
@@ -79,16 +85,17 @@
  }
 ?>
   <!--contents-->
-  <div class="container-md">
+  <div class="container-md noto-sans-jp-400  sticky-top">
       <!-- As a link -->
-    <div class="row mb-3">
-      <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Knowledge Hub</a>
-          <a href="./index.php">back</a>
-        </div>
+    <div class="row noto-sans-jp-600">
+      <nav class="navbar  navbar-expand-lg">
+       <div class="container-fluid">
+          <a class="navbar-brand" href="./index.php">Knowledge Hub</a>
+       </div>
       </nav>
     </div>
+  </div>
+  <div class="container-md noto-sans-jp-400 mt-3">
     <?php 
       if($ins_success == '1'){
     ?>
@@ -101,7 +108,7 @@
     <form action="./new.php" method="post" class="needs-validation">
         <div class="row justify-content-center mb-3">
           <div class="col-10">
-            <span style="font-size:36px; color: #001429;">ナレッジの新規投稿</span>
+          <span style="font-size:36px; color: #325d80;">ナレッジの新規投稿</span>
           </div>
         </div>
         <div class="row justify-content-center">
@@ -150,7 +157,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-2 offset-md-10">
-              <button type="submit" class="btn btn-secondary mb-3" id="btn_submit" name="btn_submit">投稿</button>
+            <button type="submit" class="btn-submit mb-3" id="btn_submit" name="btn_submit">投稿</button>
             </div>
         </div>
         <input type="hidden" id="sub_flg" name="sub_flg" value="">
