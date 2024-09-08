@@ -113,9 +113,15 @@
          <a href="./detail.php?id=<?= $data[$i]["Entry_id"]?>">
         <div class="contents-box" id = block_<?= $i ?> >
         
-          <div class="contents-header mb-2">
-          
-          <p class="noto-sans-jp-600 contents-title"><?php echo $data[$i]["Title"]?> </p>
+        <div class="row contents-header mb-2 justify-content-between">
+            <div class="col-3">
+              <p class="noto-sans-jp-600 contents-title"><?php echo $data[$i]["Title"]?> </p>
+            </div>
+            <div class="col-3 bookmark">
+              <button><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/></svg>
+              </button>
+            </div>   
           </div>
           <div class="contents-body">
             <p class="card-text"><?php echo $data[$i]["Content"]?></p>

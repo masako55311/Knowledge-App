@@ -77,6 +77,7 @@
       //SQL実行
       if($stmt -> execute()){
         $ins_success=1;
+        header("Location :". $_SERVER['PHP_SELF']);
       }else{
         $ins_success=0;
       }
@@ -103,14 +104,15 @@
     <?php  }elseif($ins_success == '0'){ ?>
       <div class="alert alert-danger" role="alert">登録に失敗しました</div>  
     <?php }
+
     ?>
-    <div id="liveAlertPlaceholder"></div>
-    <form action="./new.php" method="post" class="needs-validation">
-        <div class="row justify-content-center mb-3">
-          <div class="col-10">
-          <span style="font-size:36px; color: #325d80;">ナレッジの新規投稿</span>
-          </div>
+   <div class="row justify-content-start my-3">
+        <div class="col-10">
+          <button class="btn btn-secondary" onclick="location.href='./index.php'">戻る</button>
         </div>
+        </div>
+        
+        <form action="./new.php" method="post" class="needs-validation">
         <div class="row justify-content-center">
           <div class="col-9">
             <div class="row mb-3">
