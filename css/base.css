@@ -72,7 +72,7 @@ hr{
   border: 1px solid #dee2e6;
   border-radius: 0.375rem;
   background-color: #325d80;
-  color: #e6f2ff;
+  color: #ffffff;
 }
 .input-group .btn-submit{
   border: 1px solid #dee2e6;
@@ -116,6 +116,10 @@ hr{
   height: 30px;
   color: #325d80;
 }
+.contents-box .contents-header .bookmark{
+  text-align: end;
+}
+
 .contents-box .contents-body{
   height: 100px;
 }
