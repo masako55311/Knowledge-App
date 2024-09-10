@@ -46,11 +46,12 @@
         $query_2 .= "  WHERE tg.Tag_name  LIKE :search_word  ";
       }
    }
-   //SQLクエリ生成
-   $query = "SELECT tl.Entry_id,tl.Title,tl.Content,tl.User,tg.Tag_name ";
-   $query .= " FROM T_TIMELINE tl LEFT OUTER JOIN T_TAGMAP tm ON tl.Entry_id = tm.Entry_id LEFT OUTER JOIN T_TAG tg ON tm.Tag_id = tg.Tag_id ";
+   //SQLクエリ生成（投稿データ）
+   $query = "SELECT tl.Entry_id,tl.Title,tl.Content,tl.User,GROUP_CONCAT(tg.`Tag_name`) AS Tags";
+   $query .= " FROM T_TIMELINE tl LEFT OUTER JOIN T_TAGMAP tm ON tl.Entry_id = tm.Entry_id LEFT OUTER JOIN T_TAG tg ON tm.Tag_id = tg.Tag_id GROUP BY tl.`Entry_id`";
    $query .= $query_2;
    $query .= " ORDER BY Update_date DESC";
+
     //db接続
     try{
       $dbh = new PDO($dbconn_info,$user,$pw);
@@ -62,6 +63,7 @@
         $stmt = $dbh->query($query);
       }
       $data = $stmt->fetchAll(PDO::FETCH_BOTH);
+
     }
     catch(PDOException $e){
         print("データベースの接続に失敗しました".$e->getTraceAsString());
@@ -69,6 +71,7 @@
     }
     //DB切断
     $dbh = null;
+
   ?>
   <div class="container-md noto-sans-jp-400  sticky-top">
       <!-- As a link -->
@@ -108,6 +111,11 @@
     <hr>   
     <?php
       for($i = 0; $i < count($data) ; $i++){
+        $data[$i]["Entry_id"];
+        $tags_arr = [];
+        if(isset($data[$i]["Tags"])){
+          $tags_arr = explode(",",$data[$i]["Tags"]);
+        }
     ?>
          
          <a href="./detail.php?id=<?= $data[$i]["Entry_id"]?>">
@@ -128,7 +136,15 @@
            
           </div>
           <div class="contents-footer">
-            <p class="card-text">投稿者：<?php echo $data[$i]["User"]?></p>
+          <p class="card-text">
+              <?php
+                if(!empty($tags_arr)){
+                  foreach($tags_arr as $tag){
+                    echo "#".$tag." ";
+                  }
+                }
+              ?>
+            </p>
           </div>
         </div>
         </a>
