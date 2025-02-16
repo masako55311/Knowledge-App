@@ -22,11 +22,10 @@
 </head>
 <body>
   <!--contents-->
-
   <?php
-    $dbconn_info = 'mysql:dbname=devdb;host=devdb-1.cj02a84cgeld.ap-northeast-3.rds.amazonaws.com';
-    $user = 'admin';
-    $pw = 'ctl-db1234!';
+    $dbconn_info = 'docker_mysql';
+    $user = 'webappdev';
+    $pw = 'ctlwa@1234';
 
       //変数初期化
    $query = '';  //SQL文字列
