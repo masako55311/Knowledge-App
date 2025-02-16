@@ -23,9 +23,14 @@
 <body>
   <!--contents-->
   <?php
-    $dbconn_info = 'mysql:host=172.17.0.2; dbname=KNOWLEDGE';
-    $user = 'webappdev';
-    $pw = 'ctlwa@1234';
+      require __DIR__ . '/vendor/autoload.php';
+      $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+      $dotenv->load();
+    
+      $dbconn_info = $_ENV['DB_HOST'];
+    $user = $_ENV['DB_USER'];
+    $pw = $_ENV['DB_PASS'];
+
 
       //変数初期化
    $query = '';  //SQL文字列
