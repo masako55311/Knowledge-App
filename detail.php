@@ -21,9 +21,14 @@
 <body>
   <!--contents-->
   <?php
-    $dbconn_info = 'mysql:dbname=devdb;host=devdb-1.cj02a84cgeld.ap-northeast-3.rds.amazonaws.com';
-    $user = 'admin';
-    $pw = 'ctl-db1234!';
+    require __DIR__ . '/vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+
+    $dbconn_info = $_ENV['DB_HOST'];
+    $user = $_ENV['DB_USER'];
+    $pw = $_ENV['DB_PASS'];
+
     $entryid = $_GET["id"];
 
     //db接続

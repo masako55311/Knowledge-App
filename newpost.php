@@ -23,18 +23,15 @@
        <!-- Logic -->
   <?php
   if(isset($_POST['title'])){  
-    //オートロードの読み込み
-//    require_once __DIR__ .'/vendor/autoload.php';
-    
     //.env読み込み
-//    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-//    $dotenv->load(); 
-    //接続情報をセット
-//    $host= $_ENV['DB_HOST'];
-//    $dbname= $_ENV['DB_NAME'];
- //   $dbconn_info = 'mysql:dbname='.$dbname.';host='.$host;
- //   $user= $_ENV['DB_USER'];
- //   $pw= $_ENV['DB_PASS'];
+    require __DIR__ . '/vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+
+    // 接続情報のセット
+    $dbconn_info = $_ENV['DB_HOST'];
+    $user = $_ENV['DB_USER'];
+    $pw = $_ENV['DB_PASS'];
     $dbconn_info = 'mysql:dbname=devdb;host=devdb-1.cj02a84cgeld.ap-northeast-3.rds.amazonaws.com';
     $user = 'admin';
     $pw = 'ctl-db1234!';
