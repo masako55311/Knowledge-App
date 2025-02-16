@@ -23,7 +23,7 @@
 <body>
   <!--contents-->
   <?php
-    $dbconn_info = 'docker_mysql';
+    $dbconn_info = 'mysql:host=docker_mysql; dbname=KNOWLEDGE ; charset=utf8';
     $user = 'webappdev';
     $pw = 'ctlwa@1234';
 
